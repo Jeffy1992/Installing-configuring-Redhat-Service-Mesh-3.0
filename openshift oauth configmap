@@ -12,3 +12,7 @@ data:
     -----BEGIN CERTIFICATE-----
     (paste your PEM content here)
     -----END CERTIFICATE-----
+
+
+
+oc apply -f kiali-oauth-cabundle.yaml
