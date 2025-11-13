@@ -1,0 +1,14 @@
+openssl s_client -showcerts -connect oauth-openshift-domain:443 </dev/null 2>/dev/null | openssl x509 -outform PEM > oauth-server-ca.crt
+
+oc apply -f kiali-oauth-cabundle.yaml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kiali-oauth-cabundle
+  namespace: istio-system   # Kiali’s namespace
+data:
+  oauth-server-ca.crt: |
+    -----BEGIN CERTIFICATE-----
+    (paste your PEM content here)
+    -----END CERTIFICATE-----
