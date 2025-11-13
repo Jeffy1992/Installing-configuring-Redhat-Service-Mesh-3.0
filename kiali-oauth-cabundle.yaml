@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kiali-oauth-cabundle
+  namespace: istio-system   # Kiali’s namespace
+data:
+  oauth-server-ca.crt: |
+    -----BEGIN CERTIFICATE-----
+    (paste your PEM content here)
+    -----END CERTIFICATE-----
