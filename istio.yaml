@@ -1,0 +1,36 @@
+apiVersion: sailoperator.io/v1
+kind: Istio
+metadata:
+  name: default
+spec:
+  namespace: istio-system
+  profile: openshift
+  updateStrategy:
+    inactiveRevisionDeletionGracePeriodSeconds: 30
+    type: InPlace
+  values:
+    base: {}
+    global:
+      caAddress: 'cert-manager-istio-csr.cert-manager.svc:443'
+    meshConfig:
+      discoverySelectors:
+        - matchLabels:
+            istio-discovery: enabled
+      enableTracing: true
+      extensionProviders:
+        - name: otel
+          opentelemetry:
+            port: 4317
+            service: otel-collector.istio-system.svc.cluster.local
+    pilot:
+      autoscaleMax: 5
+      autoscaleMin: 2
+      cpu:
+        targetAverageUtilization: 80
+      env:
+        ENABLE_CA_SERVER: 'false'
+      memory:
+        targetAverageUtilization: 80
+    telemetry:
+      enabled: true
+  version: v1.26.4
